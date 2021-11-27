@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 const Counter = props => {
     const dispatch = useDispatch();
     const counter = useSelector(state => state.counter);
+    const isAllowed = useSelector(state => state.isAllowed);
     const increase = () => {
         dispatch({
             type:"increment"
@@ -14,15 +15,30 @@ const Counter = props => {
             type:"decrement"
         })
     }
+    const increaseByValue = () => {
+        dispatch({
+            type:"increase",
+            amount:5
+        })
+    }
+    const toggleHandler = () => {
+        dispatch({
+            type:"toggled"
+        })
+    }
     return (
         <div className={classes["counterBox"]}>
             <div className={classes["counterBox-child"]}>Redux Counter</div>
-            <div className={classes["counterBox-child"]}>{counter}</div>
+            { 
+                isAllowed && 
+                <div className={classes["counterBox-child"]}>{counter}</div> 
+            }
             <div className={classes["counterBox-child"]} >
                 <button className={classes["increment"]} onClick={increase}>Increment</button>
-                <button className={classes["decrement"]} onClick={decrease}>Increment</button>
+                <button className={classes["increment"]} onClick={increaseByValue}>increase By 5</button>
+                <button className={classes["decrement"]} onClick={decrease}>Decrement</button>
             </div>
-            <button className={classes["counterBox-child"]}>Toggle Counter</button>
+            <button className={classes["counterBox-child"]} onClick={toggleHandler}>Toggle Counter</button>
         </div>
     )
 }
